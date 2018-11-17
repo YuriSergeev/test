@@ -11,10 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@welcome')->name('welcome');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('/item', 'CheckListController');
+
+Route::group(['middleware' => 'access'], function()
+{
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::post('/home/{id}', 'CheckListController@condition')->name('item.condition');
+    Route::resource('/item', 'CheckListController');
+});
