@@ -47,14 +47,17 @@ class CheckListController extends Controller
      */
     public function store(Request $request)
     {
-        $item = new CheckList();
-        $item->description = $request->get('description');
-        $item->user_id = Auth::user()->id;
-        $item->save();
+        if(Auth::user()->possibleCreateItem != 0)
+        {
+          $item = new CheckList();
+          $item->description = $request->get('description');
+          $item->user_id = Auth::user()->id;
+          $item->save();
 
-        $user = Auth::user();
-        $user->possibleCreateItem -= 1;
-        $user->save();
+          $user = Auth::user();
+          $user->possibleCreateItem -= 1;
+          $user->save();
+        }
 
         return redirect()->route('home');
     }
