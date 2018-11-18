@@ -15,9 +15,11 @@ class CreateCheckListsTable extends Migration
     {
         Schema::create('check_lists', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
             $table->text('description');
             $table->boolean('condition')->default(false);
             $table->integer('user_id');
+            $table->string('list_id');
             $table->timestamps();
         });
     }

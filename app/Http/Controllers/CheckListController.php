@@ -34,9 +34,11 @@ class CheckListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('create');
+        $size = $request->get('size');
+        $title = $request->get('title');
+        return view('create', array('size'=>$size, 'title'=>$title));
     }
 
     /**
@@ -47,15 +49,20 @@ class CheckListController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->possibleCreateItem != 0)
+        if(Auth::user()->possibleCreateList != 0)
         {
-          $item = new CheckList();
-          $item->description = $request->get('description');
-          $item->user_id = Auth::user()->id;
-          $item->save();
+          for($i = 1; $i <= $request->get('size'); $i++)
+          {
+            $item = new CheckList();
+            $item->title = $request->get('title');
+            $item->description = $request->get(''.$i.'');
+            $item->user_id = Auth::user()->id;
+            $item->list_id = $request->get('title').'_'.Auth::user()->id;
+            $item->save();
+          }
 
           $user = Auth::user();
-          $user->possibleCreateItem -= 1;
+          $user->possibleCreateList -= 1;
           $user->save();
         }
 
@@ -125,7 +132,7 @@ class CheckListController extends Controller
         CheckList::find($id)->delete();
 
         $user = Auth::user();
-        $user->possibleCreateItem += 1;
+        $user->possibleCreateList += 1;
         $user->save();
 
         return redirect()->route('home');

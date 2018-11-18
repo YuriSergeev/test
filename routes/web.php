@@ -23,5 +23,6 @@ Route::group(['middleware' => 'access'], function()
 {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/home/{id}', 'CheckListController@condition')->name('item.condition');
-    Route::resource('/item', 'CheckListController');
+    Route::post('/item/create', 'CheckListController@create')->name('item.create');
+    Route::resource('/item', 'CheckListController')->except(['create']);
 });
