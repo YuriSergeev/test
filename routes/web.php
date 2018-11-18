@@ -17,12 +17,16 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/item', 'CheckListController');
-
 Route::group(['middleware' => 'access'], function()
 {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/home/{id}', 'CheckListController@condition')->name('item.condition');
     Route::post('/item/create', 'CheckListController@create')->name('item.create');
-    Route::resource('/item', 'CheckListController')->except(['create']);
+    Route::resource('/item', 'CheckListController')->except(['create', 'index']);
+});
+
+Route::prefix('admin')->group(function() {
+    Route::get('/', 'AdminController@index')->name('admin.board');
+    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 });
