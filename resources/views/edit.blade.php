@@ -40,7 +40,7 @@
             @endforeach
             <div class="card">
               <div class="card-header">
-                <input type="hidden" name="size" value="{{ $i-- }}">
+                <input type="hidden" name="size" value="{{ $i = $i - 1  }}">
                 <button type="submit" class="btn btn-primary" style="float: right; margin-top: 5px;">Edit List</button>
                 {{ method_field('PUT') }}
                 {{ csrf_field() }}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\CheckList;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -24,8 +25,30 @@ class AdminController extends Controller
 
     public function index()
     {
+        return view('admin.admin', array('CheckList'=>CheckList::all(), 'users'=>User::all()));
+    }
 
-        return view('admin.admin');
+    public function users()
+    {
+        return view('admin.users-table', array('users'=>User::all()));
+    }
+
+    public function users_data(Request $request)
+    {
+        $user = User::find($request->get('id'));
+        $user->possibleCreateList = $request->get('possibleCreateList');
+        $user->save();
+
+        return redirect()->back();
+    }
+
+    public function access($id)
+    {
+        $user = User::find($id);
+        $user->access = $user->access == true ? false : true;
+        $user->save();
+
+        return redirect()->back();
     }
 
 }

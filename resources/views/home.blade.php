@@ -47,7 +47,7 @@
                                   </form>
                                 </li>
                                 <li>
-                                  <form action="{{ route('item.destroy', ['list_id'=>$item->list_id]) }}" method="POST">
+                                  <form action="{{ route('item.destroy.list', ['list_id'=>$item->list_id]) }}" method="POST">
                                       {{ method_field('DELETE') }}
                                       {{ csrf_field() }}
                                       <li><button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i> Remove</a></button></li>

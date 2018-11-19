@@ -63,6 +63,7 @@ class CheckListController extends Controller
 
           $user = Auth::user();
           $user->possibleCreateList -= 1;
+          $user->numberOfCreated += 1;
           $user->save();
         }
 
@@ -92,7 +93,7 @@ class CheckListController extends Controller
     {
         for($i = 1; $i <= $request->get('size'); $i++)
         {
-          if(!empty($request->get(''.$i.'')))
+          if(empty($request->get(''.$i.'')))
           {
             $item = CheckList::find($id);
             $item->description = $request->get(''.$i.'');
@@ -105,7 +106,7 @@ class CheckListController extends Controller
         return redirect()->route('home');
     }
 
-    public function condition(Request $request, $id)
+    public function condition($id)
     {
         $item = CheckList::find($id);
         $item->condition = $item->condition == true ? false : true;
@@ -120,9 +121,9 @@ class CheckListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy_list($list_id)
+    public function destroyList($list_id)
     {
-        $lists = CheckList::all();
+        $CheckList = CheckList::all();
         foreach($CheckList as $item)
         {
           if($item->list_id == $list_id)
@@ -133,6 +134,7 @@ class CheckListController extends Controller
 
         $user = Auth::user();
         $user->possibleCreateList += 1;
+        $user->numberOfCreated -= 1;
         $user->save();
 
         return redirect()->route('home');
