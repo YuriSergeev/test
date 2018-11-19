@@ -21,8 +21,6 @@
                         <div class="form-group col-md-2">
                           @if(Auth::user()->possibleCreateList != 0)<th style="float: right;"><button type="submit" class="btn btn-primary" style="float: right;">Create list</button></th>@endif
                         </div>
-
-
                         {{ csrf_field() }}
                     </form>
                 </div>
@@ -34,9 +32,32 @@
                 @if($card != 1) </div></div> @endif
                 <div class="card">
                   <div class="card-header" style="background: #9999ff">
-                    <div class="form-group col-md-10">
-                      <label class="control-label">Plan: {{ $item->title }}</label>
-                    </div>
+                      <table border="0" width="100%">
+                        <tr>
+                          <th>
+                            <label class="control-label">Plan: {{ $item->title }}</label>
+                          </th>
+                          <th style="float:right">
+                            <div class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                              <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                                <li>
+                                  <form action="{{ route('item.edit', ['list_id'=>$item->list_id, 'title'=>$item->title, 'id'=>$item->id]) }}" method="GET">
+                                      {{ csrf_field() }}
+                                      <button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-pencil"></i> Edit</button>
+                                  </form>
+                                </li>
+                                <li>
+                                  <form action="{{ route('item.destroy', ['list_id'=>$item->list_id]) }}" method="POST">
+                                      {{ method_field('DELETE') }}
+                                      {{ csrf_field() }}
+                                      <li><button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i> Remove</a></button></li>
+                                  </form>
+                                </li>
+                              </ul>
+                            </div>
+                          </th>
+                        </tr>
+                      </table>
                   </div>
                 </div>
                 <div class="card">
@@ -48,23 +69,6 @@
                   <th>{{ $item->description }}</th>
 
                   <th style="float: right;">
-                    <div class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
-                      <ul class="dropdown-menu settings-menu dropdown-menu-right">
-                        <li>
-                          <form action="{{ route('item.edit', ['id'=>$item->id]) }}" method="GET">
-                              {{ csrf_field() }}
-                              <button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-pencil"></i> Edit</button>
-                          </form>
-                        </li>
-                        <li>
-                          <form action="{{ route('item.destroy', ['id'=>$item->id]) }}" method="POST">
-                              {{ method_field('DELETE') }}
-                              {{ csrf_field() }}
-                              <li><button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i> Remove</a></button></li>
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
                     <form action="{{ route('item.condition', $item->id) }}" method="POST">
                         <div class="toggle lg">
                           <label>
@@ -73,7 +77,6 @@
                         </div>
                         {{ csrf_field() }}
                     </form>
-
                   </th>
                 </tr>
                 </table>

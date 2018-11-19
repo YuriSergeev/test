@@ -21,8 +21,10 @@ Route::group(['middleware' => 'access'], function()
 {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/home/{id}', 'CheckListController@condition')->name('item.condition');
-    Route::post('/item/create', 'CheckListController@create')->name('item.create');
-    Route::resource('/item', 'CheckListController')->except(['create', 'index']);
+    Route::get('/item/edit/{list_id}/{title}/{id}', 'CheckListController@edit')->name('item.edit');
+    Route::post('/item/create/', 'CheckListController@create')->name('item.edit');
+    Route::get('/item/destroy/{list_id}', 'CheckListController@destroy_list')->name('item.destroy.list');
+    Route::resource('/item', 'CheckListController')->except(['create','edit','index', 'show']);
 });
 
 Route::prefix('admin')->group(function() {

@@ -70,29 +70,15 @@ class CheckListController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $item = CheckList::find($id);
-
-        return view('show')->with('item', $item);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($list_id, $title, $id)
     {
-        $item = CheckList::find($id);
-
-        return view('edit')->with('item', $item);
+        $item = CheckList::find($list_id);
+        return view('edit', array('list_id'=>$list_id, 'CheckList'=>CheckList::all(), 'title'=>$title, 'id'=>$id));
     }
 
     /**
@@ -104,10 +90,17 @@ class CheckListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $item = CheckList::find($id);
-        $item->description = $request->get('description');
-        $item->user_id = Auth::user()->id;
-        $item->save();
+        for($i = 1; $i <= $request->get('size'); $i++)
+        {
+          if(!empty($request->get(''.$i.'')))
+          {
+            $item = CheckList::find($id);
+            $item->description = $request->get(''.$i.'');
+            $item->condition = false;
+            $item->save();
+            $id++;
+          }
+        }
 
         return redirect()->route('home');
     }
@@ -127,14 +120,27 @@ class CheckListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy_list($list_id)
     {
-        CheckList::find($id)->delete();
+        $lists = CheckList::all();
+        foreach($CheckList as $item)
+        {
+          if($item->list_id == $list_id)
+          {
+            CheckList::find($item->id)->delete();
+          }
+        }
 
         $user = Auth::user();
         $user->possibleCreateList += 1;
         $user->save();
 
         return redirect()->route('home');
+    }
+
+    public function destroy($id)
+    {
+        CheckList::find($id)->delete();
+        return redirect()->back();
     }
 }
