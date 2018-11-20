@@ -25,6 +25,7 @@
                         <input type="text" class="form-control" name="{{ $i }}" value="{{ $item->description }}" required>
                       </th>
                       <th style="float:right;">
+                        <form></form>
                         <form action="{{ route('item.destroy', ['id'=>$item->id]) }}" method="POST">
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}

@@ -13,6 +13,8 @@ class AdminLoginController extends Controller
         $this->middleware('guest:admin', ['except' => ['logout']]);
     }
 
+    protected $redirectTo = '/admin';
+
     public function showLoginForm()
     {
         return view('auth.admin-login');

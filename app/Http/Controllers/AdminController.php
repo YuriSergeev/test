@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CheckList;
 use App\User;
+use App\Admin;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -33,6 +35,11 @@ class AdminController extends Controller
         return view('admin.users-table', array('users'=>User::all()));
     }
 
+    public function admins()
+    {
+        return view('admin.admins-table', array('admins'=>Admin::all()));
+    }
+
     public function users_data(Request $request)
     {
         $user = User::find($request->get('id'));
@@ -48,6 +55,15 @@ class AdminController extends Controller
         $user->access = $user->access == true ? false : true;
         $user->save();
 
+        return redirect()->back();
+    }
+
+    public function admin_access($id)
+    {
+        $admin = Admin::find($id);
+        $admin->access = $admin->access == true ? false : true;
+        $admin->save();
+        
         return redirect()->back();
     }
 

@@ -9,6 +9,7 @@
                   <table border="0" width="100%">
                     <tr>
                       <th style="float: left;"><a href="{{ route('admin.admin') }}" class="btn btn-primary">All checklists</a></th>
+                      @if(Auth::user()->job_title == 'Admin')<th style="text-align: center;"><a href="{{ route('admin.admins_table') }}" class="btn btn-primary">Admin table</a></th>@endif
                       <th style="float: right;"><a href="{{ route('admin.users_table') }}" class="btn btn-primary">User management</a></th>
                     </tr>
                   </table>

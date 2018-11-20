@@ -19,6 +19,7 @@ class CreateAdminsTable extends Migration
             $table->string('email')->uniqid();
             $table->string('job_title');
             $table->string('password');
+            $table->boolean('access')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

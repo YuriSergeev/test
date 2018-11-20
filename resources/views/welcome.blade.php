@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-  @if(Auth::user()->access == true)
-    <h1 style="text-align: center;">Access open</h1>
-  @else
-    <h1 style="text-align: center;">Access denied</h1>
-  @endif
+    <table border="0" width="100%">
+      <tr>
+        <th style="text-align: center;"><a href="{{ route('home') }}" class="btn btn-primary">Home</a></th>
+      </tr>
+    </table>
 @endsection

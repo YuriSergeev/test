@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class Access
+class Permission
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,13 @@ class Access
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->access == true)
+        if(Auth::user()->job_title == 'Admin')
         {
             return $next($request);
         }
         else
         {
-            return redirect()->route('block');
+            return redirect()->back();
         }
     }
 }

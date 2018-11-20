@@ -20,8 +20,10 @@
                   <tr>
                     <th>Name</th>
                     <th>Number of generated check sheets</th>
-                    <th>Registered</th>
-                    <th>Access</th>
+                    @if(Auth::user()->job_title == 'Admin')
+                      <th>Registered</th>
+                      <th>Access</th>
+                    @endif
                     <th>Can create check sheets</th>
                     <th>Apply</th>
                   </tr>
@@ -31,16 +33,18 @@
                     <tr>
                       <td>{{ $user->name }}</td>
                       <td>{{ $user->numberOfCreated }}</td>
-                      <td>{{ date('m.n.Y'), strtotime($user->created_at) }}</td>
-                      <td>
-                        <form></form>
-                        <form action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
-                            <div class="toggle lg">
-                                <button type="submit" style="border:none; background: none;"><input type="checkbox" @if($user->access) checked @endif><span class="button-indecator"></span></button>
-                            </div>
-                            {{ csrf_field() }}
-                        </form>
-                      </td>
+                      @if(Auth::user()->job_title == 'Admin')
+                        <td>{{ date('m.n.Y'), strtotime($user->created_at) }}</td>
+                        <td>
+                          <form></form>
+                          <form action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
+                              <div class="toggle lg">
+                                  <button type="submit" style="border:none; background: none;"><input type="checkbox" @if($user->access) checked @endif><span class="button-indecator"></span></button>
+                              </div>
+                              {{ csrf_field() }}
+                          </form>
+                        </td>
+                      @endif
                       <td>
                           <input type="number" class="form-control" name="possibleCreateList" value="{{ $user->possibleCreateList }}">
                       </td>
