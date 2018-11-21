@@ -20,7 +20,6 @@
                   <tr>
                     <th>Name</th>
                     <th>Job title</th>
-                    <th>Access</th>
                   </tr>
               @foreach($admins as $admin)
                 @if($admin->job_title == 'Admin') @continue @endif
@@ -29,15 +28,6 @@
                     <tr>
                       <td>{{ $admin->name }}</td>
                       <td>{{ $admin->job_title }}</td>
-                      <td>
-                        <form></form>
-                        <form action="{{ route('admin.admin_access', ['id'=>$admin->id]) }}" method="POST">
-                            <div class="toggle lg">
-                                <button type="submit" style="border:none; background: none;"><input type="checkbox" @if($admin->access) checked @endif><span class="button-indecator"></span></button>
-                            </div>
-                            {{ csrf_field() }}
-                        </form>
-                      </td>
                     </tr>
                 </form>
               @endforeach
