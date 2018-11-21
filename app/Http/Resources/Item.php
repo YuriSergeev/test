@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class Checklist extends ResourceCollection
+class Item extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -16,8 +16,8 @@ class Checklist extends ResourceCollection
     {
         return [
           'id' => $this->id,
-          'title' => $this->title,
-          'user_id' => $this->user_id,
+          'task' => $this->task,
+          'checklist_id' => $this->checklist_id,
           'created_at' => $this->created_at,
           'updated_at' => $this->updated_at,
         ];

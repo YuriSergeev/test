@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CheckList;
 
 class HomeController extends Controller
 {
@@ -23,9 +22,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $CheckList = CheckList::all();
-        $itemEdit = NULL;
-        return view('home', array('CheckList'=>$CheckList))->with('itemEdit', $itemEdit);
+        return view('home');
     }
 
     public function welcome()

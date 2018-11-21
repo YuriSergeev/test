@@ -25,63 +25,59 @@
                     </form>
                 </div>
             </div>
-            <?php $card = 1; ?>
-            @foreach($CheckList as $item)
-            @if(Auth::user()->id == $item->user_id)
-              @if($item->title != $card)
-                @if($card != 1) </div></div> @endif
-                <div class="card">
-                  <div class="card-header" style="background: #9999ff">
-                      <table border="0" width="100%">
-                        <tr>
-                          <th>
-                            <label class="control-label">Plan: {{ $item->title }}</label>
-                          </th>
-                          <th style="float:right">
-                            <div class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
-                              <ul class="dropdown-menu settings-menu dropdown-menu-right">
-                                <li>
-                                  <form action="{{ route('item.edit', ['list_id'=>$item->list_id, 'title'=>$item->title, 'id'=>$item->id]) }}" method="GET">
-                                      {{ csrf_field() }}
-                                      <button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-pencil"></i> Edit</button>
-                                  </form>
-                                </li>
-                                <li>
-                                  <form action="{{ route('item.destroy.list', ['list_id'=>$item->list_id]) }}" method="POST">
-                                      {{ method_field('DELETE') }}
-                                      {{ csrf_field() }}
-                                      <li><button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i> Remove</a></button></li>
-                                  </form>
-                                </li>
-                              </ul>
-                            </div>
-                          </th>
-                        </tr>
-                      </table>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-body">
-                    <?php $card = $item->title ?>
-              @endif
-                <table border="0" width="100%">
-                <tr>
-                  <th>{{ $item->description }}</th>
 
-                  <th style="float: right;">
-                    <form action="{{ route('item.condition', $item->id) }}" method="POST">
-                        <div class="toggle lg">
-                          <label>
-                            <button type="submit" style="border:none; background: none;"><input type="checkbox" @if(!$item->condition == false) checked @endif><span class="button-indecator"></span></button>
-                          </label>
-                        </div>
-                        {{ csrf_field() }}
-                    </form>
-                  </th>
-                </tr>
-                </table>
-            @endif
+            @foreach (Auth::user()->checklists as $checklist)
+              <div class="card">
+                  <div class="card-header">
+                    <table border="0" width="100%">
+                        <th>
+                          <label class="control-label">Plan: {{ $checklist->title }}</label>
+                        </th>
+                        <th style="float:right">
+                          <div class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                            <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                              <li>
+                                <form action="{{ route('item.edit', ['id'=>$checklist->id]) }}" method="GET">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-pencil"></i> Edit</button>
+                                </form>
+                              </li>
+                              <li>
+                                <form action="{{ route('item.destroy.list', ['id'=>$checklist->id]) }}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <li><button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i> Remove</a></button></li>
+                                </form>
+                              </li>
+                            </ul>
+                          </div>
+                        </th>
+                    </table>
+                </div>
+              </div>
+              <div class="card">
+                  <div class="card-body">
+              @foreach ($checklist->items as $item)
+                      <table border="0" width="100%">
+                      <tr>
+                        <th>{{ $item->task }}</th>
+                        <th style="float: right;">
+                          <form action="{{ route('item.condition', $item->id) }}" method="POST">
+                              <div class="toggle lg">
+                                <label>
+                                  <button type="submit" style="border:none; background: none;"><input type="checkbox" @if(!$item->condition == false) checked @endif><span class="button-indecator"></span></button>
+                                </label>
+                              </div>
+                              {{ csrf_field() }}
+                          </form>
+                        </th>
+                      </tr>
+                      </table>
+              @endforeach
+                  </div>
+              </div>
             @endforeach
+
             </div>
           </div>
         </div>

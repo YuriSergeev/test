@@ -10,6 +10,11 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public function checklists()
+    {
+        return $this->hasMany('App\Checklist', 'user_id', 'id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CheckList;
+use App\Checklist;
 use App\User;
 use App\Admin;
 use Auth;
@@ -63,7 +63,7 @@ class AdminController extends Controller
         $admin = Admin::find($id);
         $admin->access = $admin->access == true ? false : true;
         $admin->save();
-        
+
         return redirect()->back();
     }
 

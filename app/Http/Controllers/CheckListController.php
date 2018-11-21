@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CheckList;
+use App\Checklist;
+use App\Item;
 use Auth;
 
 class CheckListController extends Controller
@@ -25,8 +26,7 @@ class CheckListController extends Controller
      */
     public function index()
     {
-        $CheckList = CheckList::all();
-        return view('home', array('CheckList'=>$CheckList));
+        return view('home');
     }
 
     /**
@@ -51,13 +51,16 @@ class CheckListController extends Controller
     {
         if(Auth::user()->possibleCreateList != 0)
         {
+          $checklist = new CheckList();
+          $checklist->title = $request->get('title');
+          $checklist->user_id = Auth::user()->id;
+          $checklist->save();
+
           for($i = 1; $i <= $request->get('size'); $i++)
           {
-            $item = new CheckList();
-            $item->title = $request->get('title');
-            $item->description = $request->get(''.$i.'');
-            $item->user_id = Auth::user()->id;
-            $item->list_id = $request->get('title').'_'.Auth::user()->id;
+            $item = new Item();
+            $item->task = $request->get(''.$i.'');
+            $item->checklist_id = $checklist->id;
             $item->save();
           }
 
@@ -76,10 +79,9 @@ class CheckListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($list_id, $title, $id)
+    public function edit($id)
     {
-        $item = CheckList::find($list_id);
-        return view('edit', array('list_id'=>$list_id, 'CheckList'=>CheckList::all(), 'title'=>$title, 'id'=>$id));
+        return view('edit', ['checklist' => Checklist::find($id)]);
     }
 
     /**
@@ -108,7 +110,7 @@ class CheckListController extends Controller
 
     public function condition($id)
     {
-        $item = CheckList::find($id);
+        $item = Item::find($id);
         $item->condition = $item->condition == true ? false : true;
         $item->save();
 
@@ -121,16 +123,16 @@ class CheckListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroyList($list_id)
+    public function destroyList($id)
     {
-        $CheckList = CheckList::all();
-        foreach($CheckList as $item)
+        $checklist = Checklist::find($id);
+
+        foreach($checklist->items as $item)
         {
-          if($item->list_id == $list_id)
-          {
-            CheckList::find($item->id)->delete();
-          }
+            Item::find($item->id)->delete();
         }
+
+        $checklist->delete();
 
         $user = Auth::user();
         $user->possibleCreateList += 1;
