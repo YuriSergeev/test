@@ -4,7 +4,7 @@ use App\Http\Resources\CheckList as CheckListResource;
 use App\Http\Resources\Admin as AdminResource;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
-use App\CheckList;
+use App\Checklist;
 use App\Admin;
 use App\User;
 
@@ -18,27 +18,33 @@ use App\User;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/', 'HomeController@welcome')->name('welcome');
+
 Auth::routes();
+
+Route::get('admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+Route::post('admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+Route::get('/block', 'BlockController@index')->name('block');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api']], function()
 {
     Route::get('/users', function() {
         return UserResource::collection(User::all());
     });
-
     Route::get('/admins', function() {
         return AdminResource::collection(Admin::all());
     });
-
     Route::get('/checklists', function() {
-        return CheckListResource::collection(CheckList::all());
+        return UserResource::collection(User::all());
     });
-
+    Route::get('/', 'AdminController@index')->name('admin.admin');
+    Route::get('/users', 'AdminController@users')->name('admin.users_table');
     Route::post('/edit/users', 'AdminController@users_data')->name('edit.data.user');
-    Route::post('/users/access/{id}', 'AdminController@access')->name('user.access');
-    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+});
 
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api', 'permission'], function() {
+    Route::post('/users/access/{id}', 'AdminController@access')->name('user.access');
+    Route::get('/admins', 'AdminController@admins')->name('admin.admins_table');
 });
 
 Route::group(['prefix' => 'home', 'middleware' => ['auth:api']], function()

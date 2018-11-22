@@ -144,7 +144,7 @@ class CheckListController extends Controller
 
     public function destroy($id)
     {
-        CheckList::find($id)->delete();
+        Item::find($id)->delete();
         return redirect()->back();
     }
 }

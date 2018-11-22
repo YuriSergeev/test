@@ -3,41 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Checklist;
-use App\User;
 use App\Admin;
+use App\User;
 use Auth;
 
 class AdminController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth:admin');
     }
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function index()
     {
-        return view('admin.admin', array('CheckList'=>CheckList::all(), 'users'=>User::all()));
+        return view('admin.admin', ['users'=>User::all()]);
     }
 
     public function users()
     {
-        return view('admin.users-table', array('users'=>User::all()));
+        return view('admin.users-table', ['users'=>User::all()]);
     }
 
     public function admins()
     {
-        return view('admin.admins-table', array('admins'=>Admin::all()));
+        return view('admin.admins-table', ['admins'=>Admin::all()]);
     }
 
     public function users_data(Request $request)
@@ -57,14 +46,4 @@ class AdminController extends Controller
 
         return redirect()->back();
     }
-
-    public function admin_access($id)
-    {
-        $admin = Admin::find($id);
-        $admin->access = $admin->access == true ? false : true;
-        $admin->save();
-
-        return redirect()->back();
-    }
-
 }
