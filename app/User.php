@@ -12,7 +12,7 @@ class User extends Authenticatable
 
     public function checklists()
     {
-        return $this->hasMany('App\Checklist', 'user_id', 'id');
+        return $this->hasMany('App\Checklist', 'user_id', 'id')->orderBy('id', 'desc');
     }
 
     /**

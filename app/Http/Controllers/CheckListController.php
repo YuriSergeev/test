@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Checklist;
 use App\Item;
@@ -36,6 +37,11 @@ class CheckListController extends Controller
      */
     public function create(Request $request)
     {
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'size' => 'required|numeric|between:1,30',
+        ]);
+
         $size = $request->get('size');
         $title = $request->get('title');
         return view('create', array('size'=>$size, 'title'=>$title));
@@ -49,9 +55,14 @@ class CheckListController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'size' => 'required|numeric|between:1,30',
+        ]);
+
         if(Auth::user()->possibleCreateList != 0)
         {
-          $checklist = new CheckList();
+          $checklist = new Checklist();
           $checklist->title = $request->get('title');
           $checklist->user_id = Auth::user()->id;
           $checklist->save();
@@ -68,7 +79,10 @@ class CheckListController extends Controller
           $user->possibleCreateList -= 1;
           $user->numberOfCreated += 1;
           $user->save();
+
+          \Session::flash('checklist_create', 'You have created CheckList');
         }
+
 
         return redirect()->route('home');
     }
@@ -93,17 +107,21 @@ class CheckListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        for($i = 1; $i <= $request->get('size'); $i++)
-        {
-          if(empty($request->get(''.$i.'')))
-          {
-            $item = CheckList::find($id);
-            $item->description = $request->get(''.$i.'');
-            $item->condition = false;
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+        ]);
+
+        $checklist = Checklist::find($id);
+        $checklist->title = $request->get('title');
+        $checklist->save();
+
+        foreach ($checklist->items as $item) {
+            $item = Item::find($item->id);
+            $item->task = $request->get('' . $item->id . '');
             $item->save();
-            $id++;
-          }
         }
+
+        \Session::flash('checklist_edited', 'You have successfully edited CheckList');
 
         return redirect()->route('home');
     }
@@ -138,6 +156,8 @@ class CheckListController extends Controller
         $user->possibleCreateList += 1;
         $user->numberOfCreated -= 1;
         $user->save();
+
+        \Session::flash('checklist_destroy', 'You have successfully deleted CheckList');
 
         return redirect()->route('home');
     }

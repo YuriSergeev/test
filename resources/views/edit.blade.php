@@ -16,7 +16,7 @@
                 <div class="card-body">
                   <table border="0" width="100%">
                       <th>
-                        <input type="text" class="form-control" name="title" value="{{ $item->task }}" required>
+                        <input type="text" class="form-control" name="{{ $item->id }}" value="{{ $item->task }}" required>
                       </th>
                   </table>
                 </div>
