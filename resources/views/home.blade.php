@@ -43,7 +43,7 @@
                               </form>
                             </li>
                             <li>
-                              <form action="{{ route('item.destroy.list', ['id'=>$checklist->id]) }}" method="POST">
+                              <form id="delete_list" action="{{ route('item.destroy.list', ['id'=>$checklist->id]) }}" method="POST">
                                   @method('DELETE')
                                   @csrf
                                   <li><button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i> Remove</a></button></li>
@@ -56,28 +56,27 @@
                 </div>
                 <div class="card-body">
               @foreach ($checklist->items as $item)
-                  <table border="0" width="100%">
-                        <tr>
-                          <th>{{ $item->task }}</th>
-                          <th style="float:right">
-                            <form id="delete" action="{{ route('item.destroy', ['id' => $item->id]) }}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button id="delete" type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i></button>
-                            </form>
-                          </th>
-                          <th style="float: right;">
-                            <form action="{{ route('item.condition', $item->id) }}" method="POST">
-                                <div class="toggle lg">
-                                  <label>
-                                    <button type="submit" style="border:none; background: none;"><input type="checkbox" @if(!$item->condition == false) checked @endif><span class="button-indecator"></span></button>
-                                  </label>
-                                </div>
-                                @csrf
-                            </form>
-                          </th>
-                        </tr>
-                      </table>
+                <table border="0" width="100%">
+                  <tr>
+                    <th>{{ $item->task }}</th>
+                    <th style="float:right">
+                      <form id="delete" action="{{ route('item.destroy', ['id' => $item->id]) }}" method="POST"> @csrf
+                        @method('DELETE')
+                        <button type="submit" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i></button>
+                      </form>
+                    </th>
+                    <th style="float: right;">
+                      <form id="condition" action="{{ route('item.condition', $item->id) }}" method="POST">
+                        <div class="toggle lg">
+                          <label>
+                            <button type="submit" style="all: unset;"><input type="checkbox" @if(!$item->condition == false) checked @endif><span class="button-indecator"></span></button>
+                          </label>
+                        </div>
+                        @csrf
+                      </form>
+                    </th>
+                  </tr>
+                </table>
               @endforeach
                 </div>
               </div>

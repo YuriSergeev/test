@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api']], function
     Route::post('/edit/users', 'AdminController@users_data')->name('edit.data.user');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api', 'permission'], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api', 'permission']], function() {
     Route::post('/users/access/{id}', 'AdminController@access')->name('user.access');
     Route::get('/admins', 'AdminController@admins')->name('admin.admins_table');
 });

@@ -27,7 +27,6 @@
               <th>Access</th>
             @endif
             <th>Can create check sheets</th>
-            <th>Apply</th>
           </tr>
 
         @foreach($users as $user)
@@ -37,21 +36,25 @@
             @if(Auth::user()->job_title == 'Admin')
               <td>{{ date('m.n.Y'), strtotime($user->created_at) }}</td>
               <td>
-                <form action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST"> @csrf
+                <form id="condition" action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
                   <div class="toggle lg">
-                    <button type="submit" style="border:none; background: none;"><input type="checkbox" @if(!$user->access) checked @endif><span class="button-indecator"></span></button>
+                    <button style="all: unset;" type="submit" style="border:none; background: none;"><input type="checkbox" @if(!$user->access) checked @endif><span class="button-indecator"></span></button>
                   </div>
+                  @csrf
                 </form>
                </td>
             @endif
-            <form action="{{ route('edit.data.user') }}" method="POST"> @csrf
               <td>
-                <input type="number" class="form-control" name="possibleCreateList" value="{{ $user->possibleCreateList }}">
+                <form id="listSize" action="{{ route('edit.data.user', ['id'=>$user->id]) }}" method="POST" сlass="row">
+                  <table border="0" width="100%">
+                    <tr>
+                      <th><input type="number" class="form-control" name="possibleCreateList" value="{{ $user->possibleCreateList }}"></th>
+                      <th><button type="submit" class="btn btn-primary">Save</button></th>
+                    <tr>
+                  </table>
+                  @csrf
+                </form>
               </td>
-              <td>
-                <button type="submit" class="btn btn-primary">Save</button>
-              </td>
-            </form>
             </tr>
           @endforeach
 

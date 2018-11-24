@@ -21,9 +21,9 @@
               <table border="0" width="100%">
                   <th>Name user: {{ $user->name }}</th>
                   <th style="float: right;">
-                    <form action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
+                    <form id="condition" action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
                       <div class="toggle lg">
-                          <button type="submit" style="border:none; background: none;"><input type="checkbox" @if(!$user->access) checked @endif><span class="button-indecator"></span></button>
+                          <button type="submit" style="all: unset;"><input type="checkbox" @if(!$user->access) checked @endif><span class="button-indecator"></span></button>
                       </div>
                       @csrf
                     </form>

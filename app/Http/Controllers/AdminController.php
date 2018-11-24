@@ -26,12 +26,11 @@ class AdminController extends Controller
 
     public function admins()
     {
-        return view('admin.admins-table', ['admins'=>Admin::all()]);
     }
 
-    public function users_data(Request $request)
+    public function users_data(Request $request, $id)
     {
-        $user = User::find($request->get('id'));
+        $user = User::find($id);
         $user->possibleCreateList = $request->get('possibleCreateList');
         $user->save();
 
