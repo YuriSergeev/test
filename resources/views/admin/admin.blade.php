@@ -16,6 +16,7 @@
       </div>
 
       @foreach ($users as $user)
+        @if($user->role == 'Admin') @continue @endif
         <div class="card">
             <div class="card-header">
               <table border="0" width="100%">

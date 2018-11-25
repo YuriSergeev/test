@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Role;
 use Auth;
 
 class AdminController extends Controller
@@ -43,6 +44,27 @@ class AdminController extends Controller
         $user->access = $user->access == true ? false : true;
         $user->save();
 
+        return redirect()->back();
+    }
+
+    public function postAdminAssignRoles(Request $request)
+    {
+        $user = User::where('id', $request['user_id'])->first();
+        $user->roles()->detach();
+        if ($request['role_user']) {
+            $user->roles()->attach(Role::where('name', 'User')->first());
+            $user->role = 'User';
+
+        }
+        if ($request['role_moderator']) {
+            $user->roles()->attach(Role::where('name', 'Moderator')->first());
+            $user->role = 'Moderator';
+        }
+        if ($request['role_admin']) {
+            $user->roles()->attach(Role::where('name', 'Admin')->first());
+            $user->role = 'Admin';
+        }
+        $user->save();
         return redirect()->back();
     }
 }

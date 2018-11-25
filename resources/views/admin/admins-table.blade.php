@@ -17,18 +17,34 @@
       <div class="card">
         <div class="card-body">
           <table width="100%">
-            <tr>
+            <thead>
               <th>Name</th>
-              <th>Job title</th>
-            </tr>
-
-            @foreach($admins as $admin)
+              <th>Role</th>
+              <th>E-Mail</th>
+              <th>Access</th>
+              <th></th>
+            </thead>
+            <tbody>
+            @foreach($users as $user)
+              {{-- @if($user->role == 'User') @continue @endif --}}
               <tr>
-                <td>{{ $admin->name }}</td>
-                <td>{{ $admin->job_title }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->role }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                  <form id="admin_access" action="{{ route('admin.access') }}" method="POST"> @csrf
+                    <table width="100%">
+                      <input type="hidden" name="user_id" value="{{ $user->id }}">
+                      <td>User: <input type="checkbox" {{ $user->hasRole('User') ? 'checked' : '' }} name="role_user"></td>
+                      <td>Moderator: <input type="checkbox" {{ $user->hasRole('Moderator') ? 'checked' : '' }} name="role_moderator"></td>
+                      <td>Admin: <input type="checkbox" {{ $user->hasRole('Admin') ? 'checked' : '' }} name="role_admin"></td>
+                      <td><button type="submit">Assign Roles</button></td>
+                    </table>
+                  </form>
+                </td>
               </tr>
             @endforeach
-
+            </tbody>
           </table>
         </div>
       </div>
