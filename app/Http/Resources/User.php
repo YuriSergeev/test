@@ -17,6 +17,7 @@ class User extends ResourceCollection
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'role' => $this->role
             'email' => $this->email,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

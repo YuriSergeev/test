@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class Admin extends ResourceCollection
+class UserRole extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -16,9 +16,8 @@ class Admin extends ResourceCollection
     {
       return [
           'id' => $this->id,
-          'name' => $this->name,
-          'email' => $this->email,
-          'job_title' => $this->job_title,
+          'user_id' => $this->user_id,
+          'role_id' => $this->role_id,
           'created_at' => $this->created_at,
           'updated_at' => $this->updated_at,
       ];

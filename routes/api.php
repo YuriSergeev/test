@@ -5,7 +5,6 @@ use App\Http\Resources\Admin as AdminResource;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
 use App\Checklist;
-use App\Admin;
 use App\User;
 
 /*
@@ -18,38 +17,30 @@ use App\User;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/', 'HomeController@welcome')->name('welcome');
-
 Auth::routes();
 
 Route::get('/block', 'BlockController@index')->name('block');
 
-Route::group(['prefix' => 'admin',], function()
-{
+Route::group(['prefix' => 'admin', 'middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator']], function() {
+    Route::get('/', function() {
+        return UserResource::collection(User::all());
+    })->name('admin.admin');
     Route::get('/users', function() {
         return UserResource::collection(User::all());
     });
-    Route::get('/admins', function() {
-        return AdminResource::collection(Admin::all());
-    });
-    Route::get('/checklists', function() {
-        return UserResource::collection(User::all());
-    });
-    Route::get('/', 'AdminController@index')->name('admin.admin');
-    Route::get('/users', 'AdminController@users')->name('admin.users_table');
-    Route::post('/edit/users', 'AdminController@users_data')->name('edit.data.user');
+    Route::post('users/access/{id}', 'AdminController@access')->name('user.access');
+    Route::post('/edit/users/{id}', 'AdminController@users_data')->name('edit.data.user');
 });
 
-Route::group(['prefix' => 'admin',], function() {
-    Route::post('/users/access/{id}', 'AdminController@access')->name('user.access');
-    Route::get('/admins', 'AdminController@admins')->name('admin.admins_table');
+Route::group(['prefix' => 'admin', 'middleware' => 'roles', 'roles' => 'Admin'], function() {
+    Route::post('admins/access', 'AdminController@postAdminAssignRoles')->name('admin.access');
+    Route::get('admins', 'AdminController@admins')->name('admin.admins_table');
 });
 
-Route::group(['prefix' => 'home', ], function()
-{
-  Route::get('/home', 'HomeController@index')->name('home');
-  Route::post('/home/{id}', 'CheckListController@condition')->name('item.condition');
-  Route::post('/item/create/', 'CheckListController@create')->name('item.create');
-  Route::delete('/item/destroy/{list_id}', 'CheckListController@destroyList')->name('item.destroy.list');
-  Route::resource('/item', 'CheckListController')->except(['create','edit','index', 'show']);
+Route::group(['middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator','User']], function() {
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::post('home/{id}', 'CheckListController@condition')->name('item.condition');
+    Route::post('item/create/', 'CheckListController@create')->name('item.create');
+    Route::resource('item', 'CheckListController')->except(['create', 'index', 'show']);
+    Route::delete('item/destroy/{id}', 'CheckListController@destroyList')->name('item.destroy.list');
 });
