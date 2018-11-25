@@ -22,10 +22,8 @@
           <tr>
             <th>Name</th>
             <th>Number of generated check sheets</th>
-            @if(Auth::user()->job_title == 'Admin')
-              <th>Registered</th>
-              <th>Access</th>
-            @endif
+            <th>Registered</th>
+            <th>Access</th>
             <th>Can create check sheets</th>
           </tr>
 
@@ -33,17 +31,15 @@
           <tr>
             <td>{{ $user->name }}</td>
             <td>{{ $user->numberOfCreated }}</td>
-            @if(Auth::user()->job_title == 'Admin')
-              <td>{{ date('m.n.Y'), strtotime($user->created_at) }}</td>
-              <td>
-                <form id="condition" action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
-                  <div class="toggle lg">
-                    <button style="all: unset;" type="submit" style="border:none; background: none;"><input type="checkbox" @if(!$user->access) checked @endif><span class="button-indecator"></span></button>
-                  </div>
-                  @csrf
-                </form>
-               </td>
-            @endif
+            <td>{{ date('m.n.Y'), strtotime($user->created_at) }}</td>
+            <td>
+              <form id="condition" action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
+                <div class="toggle lg">
+                  <button style="all: unset;" type="submit" style="border:none; background: none;"><input type="checkbox" @if(!$user->access) checked @endif><span class="button-indecator"></span></button>
+                </div>
+                @csrf
+              </form>
+             </td>
               <td>
                 <form id="listSize" action="{{ route('edit.data.user', ['id'=>$user->id]) }}" method="POST" сlass="row">
                   <table border="0" width="100%">

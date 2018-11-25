@@ -23,7 +23,6 @@
             </tr>
 
             @foreach($admins as $admin)
-              @if($admin->job_title == 'Admin') @continue @endif
               <tr>
                 <td>{{ $admin->name }}</td>
                 <td>{{ $admin->job_title }}</td>

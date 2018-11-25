@@ -8,7 +8,7 @@
         <div class="card-header">
           <table border="0" width="100%">
             <tr>
-              @if(Auth::user()->job_title == 'Admin')<th style="float: left;"><a href="{{ route('admin.admins_table') }}" class="btn btn-primary">Admin table</a></th>@endif
+              <th style="float: left;"><a href="{{ route('admin.admins_table') }}" class="btn btn-primary">Admin table</a></th>
               <th style="float: right;"><a href="{{ route('admin.users_table') }}" class="btn btn-primary">User management</a></th>
             </tr>
           </table>
@@ -34,6 +34,7 @@
               </table>
             </div>
           @foreach($user->checklists as $checklist)
+            {{-- @if($admin->job_title == 'Admin') @continue @endif --}}
             <div class="card-header">
               <table border="0" width="100%">
                   <th>Title: {{ $checklist->title }}</th>

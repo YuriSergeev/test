@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Admin;
 use App\User;
 use Auth;
 
@@ -11,7 +10,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin');
+        $this->middleware('auth');
     }
 
     public function index()
@@ -26,6 +25,7 @@ class AdminController extends Controller
 
     public function admins()
     {
+        return view('admin.admins-table', ['users'=>User::all()]);
     }
 
     public function users_data(Request $request, $id)

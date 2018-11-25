@@ -22,11 +22,9 @@ Route::get('/', 'HomeController@welcome')->name('welcome');
 
 Auth::routes();
 
-Route::get('admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-Route::post('admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 Route::get('/block', 'BlockController@index')->name('block');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api']], function()
+Route::group(['prefix' => 'admin',], function()
 {
     Route::get('/users', function() {
         return UserResource::collection(User::all());
@@ -42,16 +40,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api']], function
     Route::post('/edit/users', 'AdminController@users_data')->name('edit.data.user');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api', 'permission']], function() {
+Route::group(['prefix' => 'admin',], function() {
     Route::post('/users/access/{id}', 'AdminController@access')->name('user.access');
     Route::get('/admins', 'AdminController@admins')->name('admin.admins_table');
 });
 
-Route::group(['prefix' => 'home', 'middleware' => ['auth:api']], function()
+Route::group(['prefix' => 'home', ], function()
 {
   Route::get('/home', 'HomeController@index')->name('home');
   Route::post('/home/{id}', 'CheckListController@condition')->name('item.condition');
-  Route::get('/item/edit/{list_id}/{title}/{id}', 'CheckListController@edit')->name('item.edit');
   Route::post('/item/create/', 'CheckListController@create')->name('item.create');
   Route::delete('/item/destroy/{list_id}', 'CheckListController@destroyList')->name('item.destroy.list');
   Route::resource('/item', 'CheckListController')->except(['create','edit','index', 'show']);
