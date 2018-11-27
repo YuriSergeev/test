@@ -22,14 +22,14 @@ Route::group(['middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderat
     Route::delete('item/destroy/{id}', 'CheckListController@destroyList')->name('item.destroy.list');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'roles', 'roles' => 'Admin'], function() {
-    Route::post('admins/access', 'AdminController@postAdminAssignRoles')->name('admin.access');
-    Route::get('admins', 'AdminController@admins')->name('admin.admins_table');
-});
-
 Route::group(['prefix' => 'admin', 'middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator']], function() {
     Route::post('users/access/{id}', 'AdminController@access')->name('user.access');
     Route::get('/', 'AdminController@index')->name('admin.admin');
     Route::get('/users', 'AdminController@users')->name('admin.users_table');
     Route::post('/edit/users/{id}', 'AdminController@users_data')->name('edit.data.user');
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => 'roles', 'roles' => 'Admin'], function() {
+    Route::post('admins/access', 'AdminController@postAdminAssignRoles')->name('admin.access');
+    Route::get('admins', 'AdminController@admins')->name('admin.admins_table');
 });

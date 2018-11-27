@@ -12,8 +12,8 @@ $(document).ready(function(){
           }
         });
 
-        this.id == 'delete' ? this.closest('table').remove() : this;
-        this.id == 'delete_list' ? this.closest('.card').remove()  : this;
+        this.id == 'delete' ? this.closest('table').remove() : '';
+        this.id == 'delete_list' ? this.closest('.card').remove()  : '';
         this.querySelector('input').checked ? this.querySelector('input').checked = false : this.querySelector('input').checked = true;
       }
     });
