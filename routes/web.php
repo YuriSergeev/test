@@ -33,3 +33,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'roles', 'roles' => 'Admin'],
     Route::post('admins/access', 'AdminController@postAdminAssignRoles')->name('admin.access');
     Route::get('admins', 'AdminController@admins')->name('admin.admins_table');
 });
+
+Route::get('locale/{locale}', function($locale) {
+    Session::put('locale', $locale);
+    return redirect()->back();
+})->name('locale');

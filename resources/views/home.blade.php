@@ -8,18 +8,18 @@
                 <div class="card-header">
                     <form action="{{ route('item.create') }}" method="POST" class="row">
                         <div class="form-group col-md-10">
-                          <label class="control-label">Title</label>
+                          <label class="control-label">@lang('app.title'):</label>
                           <input type="text" class="form-control" name="title" value="{{ old('title') }}" required autofocus>
                         </div>
                         <div class="form-group col-md-2">
-                          <label class="control-label">Size</label>
+                          <label class="control-label">@lang('app.size'):</label>
                           <input type="number" class="form-control" name="size" value="{{ old('size') }}" required>
                         </div>
                         <div class="form-group col-md-10">
-                          It is possible to create items: {{ Auth::user()->possibleCreateList }}
+                          @lang('app.possible_create_list'): {{ Auth::user()->possibleCreateList }}
                         </div>
                         <div class="form-group col-md-2">
-                          @if(Auth::user()->possibleCreateList != 0)<th style="float: right;"><button type="submit" class="btn btn-primary" style="float: right;">Create list</button></th>@endif
+                          @if(Auth::user()->possibleCreateList != 0)<th style="float: right;"><button type="submit" class="btn btn-primary" style="float: right;">@lang('app.create_list')</button></th>@endif
                         </div>
                         @csrf
                     </form>
@@ -31,7 +31,7 @@
                 <div class="card-header">
                   <table border="0" width="100%">
                       <th>
-                        <label class="control-label">Plan: {{ $checklist->title }}</label>
+                        <label class="control-label">@lang('app.plan'): {{ $checklist->title }}</label>
                       </th>
                       <th style="float:right">
                         <div class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
@@ -39,14 +39,14 @@
                             <li>
                               <form action="{{ route('item.edit', ['id'=>$checklist->id]) }}" method="GET">
                                   @csrf
-                                  <button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-pencil"></i> Edit</button>
+                                  <button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-pencil"></i> @lang('app.edit')</button>
                               </form>
                             </li>
                             <li>
                               <form id="delete_list" action="{{ route('item.destroy.list', ['id'=>$checklist->id]) }}" method="POST">
                                   @method('DELETE')
                                   @csrf
-                                  <li><button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i> Remove</a></button></li>
+                                  <li><button type="submit" class="dropdown-item" style="border: none; outline: none; background: none;"><i class="fa fa-trash"></i> @lang('app.remove')</a></button></li>
                               </form>
                             </li>
                           </ul>

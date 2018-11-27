@@ -4,7 +4,7 @@
       @if(Session::has('checklist_create'))
         <div class="alert alert-success" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <strong>Success:</strong> {{ Session::get('checklist_create') }}
+          <strong>@lang('home.success'):</strong> @lang('home.checklist_create')
         </div>
       @elseif (count($errors) > 0)
         <div class="alert alert-danger" role="alert">
@@ -19,7 +19,7 @@
       @elseif (Session::has('checklist_edited'))
         <div class="alert alert-success" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Success:</strong> {{ Session::get('checklist_edited') }}
+            <strong>@lang('home.success'):</strong> @lang('home.checklist_edited')
         </div>
       @endif
     </div>

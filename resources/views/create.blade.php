@@ -7,14 +7,14 @@
           <form action="{{ route('item.store')}}" method="POST">
             <div class="card">
                 <div class="card-header">
-                    <label class="control-label">Title</label>
+                    <label class="control-label">@lang('app.title')</label>
                     <input type="text" class="form-control" name="title" value="{{ $title }}" required autofocus>
                 </div>
             </div>
             @for ($i=1; $i <= $size; $i++)
               <div class="card">
                 <div class="card-body">
-                  <label class="control-label">{{ $i }} item</label>
+                  <label class="control-label">{{ $i }} @lang('app.item')</label>
                   <input type="text" class="form-control" name="{{ $i }}" required>
                 </div>
               </div>
@@ -22,7 +22,7 @@
             <div class="card">
               <div class="card-header">
                 <input type="hidden" name="size" value="{{ $size }}">
-                <button type="submit" class="btn btn-primary" style="float: right; margin-top: 5px;">Create List</button>
+                <button type="submit" class="btn btn-primary" style="float: right; margin-top: 5px;">@lang('app.create_list')</button>
                 {{ csrf_field() }}
               </div>
             </div>

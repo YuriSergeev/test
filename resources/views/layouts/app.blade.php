@@ -45,11 +45,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">@lang('app.login')</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">@lang('app.register')</a>
                                 @endif
                             </li>
                         @else
@@ -61,7 +61,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        @lang('app.logout')
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -70,6 +70,37 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                @lang('app.language')
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <ul style="list-style: none; padding-left: 0;">
+                                  <li>
+                                    <a class="dropdown-item" href="{{ route('locale', ['locale'=> 'ru']) }}"
+                                      onclick="event.preventDefault(); document.getElementById('ru-form').submit();">
+                                      @lang('app.russia')
+                                      <img src="{{ asset('image/local/language_ru.png') }}" width="25%" style="float: right; margin-top: -5px;"/>
+                                    </a>
+
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="{{ route('locale', ['locale'=> 'eng']) }}"
+                                      onclick="event.preventDefault(); document.getElementById('eng-form').submit();">
+                                      @lang('app.english')
+                                      <img src="{{ asset('image/local/language_eng.png') }}" width="25%" style="float: right; margin-top: -5px;"/>
+                                    </a>
+                                  </li>
+                                </ul>
+                                <form id="ru-form" action="{{ route('locale', ['locale'=> 'ru']) }}" method="GET" style="display: none;">
+                                    @csrf
+                                </form>
+                                <form id="eng-form" action="{{ route('locale', ['locale'=> 'eng']) }}" method="GET" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -8,8 +8,8 @@
       <div class="card">
         <div class="card-header">
           <table border="0" width="100%">
-            <th style="float: left;"><a href="{{ route('admin.admin') }}" class="btn btn-primary">All checklists</a></th>
-            <th style="float: right;"><a href="{{ route('admin.users_table') }}" class="btn btn-primary">User management</a></th>
+            <th style="float: left;"><a href="{{ route('admin.admin') }}" class="btn btn-primary">@lang('admin.all_checklists')</a></th>
+            <th style="float: right;"><a href="{{ route('admin.users_table') }}" class="btn btn-primary">@lang('admin.user_management')</a></th>
           </table>
         </div>
       </div>
@@ -18,14 +18,15 @@
         <div class="card-body">
           <table width="100%">
             <thead>
-              <th>Name</th>
-              <th>Role</th>
+              <th>@lang('admin.name')</th>
+              <th>@lang('admin.role')</th>
               <th>E-Mail</th>
-              <th>Access</th>
+              <th>@lang('admin.access')</th>
               <th></th>
             </thead>
             <tbody>
             @foreach($users as $user)
+              {{-- @if($user->role == 'Admin') @continue @endif --}}
               {{-- @if($user->role == 'User') @continue @endif --}}
               <tr>
                 <td>{{ $user->name }}</td>
@@ -35,10 +36,10 @@
                   <form id="admin_access" action="{{ route('admin.access') }}" method="POST"> @csrf
                     <table width="100%">
                       <input type="hidden" name="user_id" value="{{ $user->id }}">
-                      <td>User: <input type="checkbox" {{ $user->hasRole('User') ? 'checked' : '' }} name="role_user"></td>
-                      <td>Moderator: <input type="checkbox" {{ $user->hasRole('Moderator') ? 'checked' : '' }} name="role_moderator"></td>
-                      <td>Admin: <input type="checkbox" {{ $user->hasRole('Admin') ? 'checked' : '' }} name="role_admin"></td>
-                      <td><button type="submit">Assign Roles</button></td>
+                      <td>@lang('admin.user'): <input type="checkbox" {{ $user->hasRole('User') ? 'checked' : '' }} name="role_user"></td>
+                      <td>@lang('admin.moderator'): <input type="checkbox" {{ $user->hasRole('Moderator') ? 'checked' : '' }} name="role_moderator"></td>
+                      <td>@lang('admin.admin'): <input type="checkbox" {{ $user->hasRole('Admin') ? 'checked' : '' }} name="role_admin"></td>
+                      <td><button type="submit">@lang('admin.assign_roles')</button></td>
                     </table>
                   </form>
                 </td>

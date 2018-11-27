@@ -8,8 +8,8 @@
         <div class="card-header">
           <table border="0" width="100%">
             <tr>
-              <th style="float: left;"><a href="{{ route('admin.admins_table') }}" class="btn btn-primary">Admin table</a></th>
-              <th style="float: right;"><a href="{{ route('admin.users_table') }}" class="btn btn-primary">User management</a></th>
+              <th style="float: left;"><a href="{{ route('admin.admins_table') }}" class="btn btn-primary">@lang('admin.admin_table')</a></th>
+              <th style="float: right;"><a href="{{ route('admin.users_table') }}" class="btn btn-primary">@lang('admin.user_management')</a></th>
             </tr>
           </table>
         </div>
@@ -20,7 +20,7 @@
         <div class="card">
             <div class="card-header">
               <table border="0" width="100%">
-                  <th>Name user: {{ $user->name }}</th>
+                  <th>@lang('admin.name'): {{ $user->name }} - @lang('admin.role'): {{ $user->role }}</th>
                   <th style="float: right;">
                     <form id="condition" action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
                       <div class="toggle lg">
@@ -30,7 +30,7 @@
                     </form>
                   </th>
                   <th style="float: right; margin-top: 4px;">
-                    <label>Access: </label>
+                    <label>@lang('admin.access'): </label>
                   </th>
               </table>
             </div>
@@ -38,7 +38,7 @@
             {{-- @if($admin->job_title == 'Admin') @continue @endif --}}
             <div class="card-header">
               <table border="0" width="100%">
-                  <th>Title: {{ $checklist->title }}</th>
+                  <th>@lang('app.plan'): {{ $checklist->title }}</th>
               </table>
             </div>
             <div class="card-body">

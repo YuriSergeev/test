@@ -7,7 +7,7 @@
           <form action="{{ route('item.update', ['id' => $checklist->id]) }}" method="POST">
             <div class="card">
                 <div class="card-header">
-                    <label class="control-label">Title</label>
+                    <label class="control-label">@lang('app.title')</label>
                     <input type="text" class="form-control" name="title" value="{{ $checklist->title }}" required autofocus>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="card-header">
                   @method('PUT')
                   @csrf
-                  <button type="submit" class="btn btn-primary" style="float: right;">Edit list</button>
+                  <button type="submit" class="btn btn-primary" style="float: right;">@lang('app.edit_list')</button>
                 </div>
             </div>
           </form>

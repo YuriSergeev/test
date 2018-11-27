@@ -9,8 +9,8 @@
         <div class="card-header">
           <table border="0" width="100%">
             <tr>
-              <th style="float: left;"><a href="{{ route('admin.admin') }}" class="btn btn-primary">All checklists</a></th>
-              <th style="float: right;"><a href="{{ route('admin.admins_table') }}" class="btn btn-primary">Admin table</a></th>
+              <th style="float: left;"><a href="{{ route('admin.admin') }}" class="btn btn-primary">@lang('admin.all_checklists')</a></th>
+              <th style="float: right;"><a href="{{ route('admin.admins_table') }}" class="btn btn-primary">@lang('admin.admin_table')</a></th>
             </tr>
           </table>
         </div>
@@ -20,14 +20,15 @@
         <div class="card-body">
           <table width="100%">
           <tr>
-            <th>Name</th>
-            <th>Number of generated check sheets</th>
-            <th>Registered</th>
-            <th>Access</th>
-            <th>Can create check sheets</th>
+            <th>@lang('admin.name')</th>
+            <th>@lang('admin.number_generated_check_sheets')</th>
+            <th>@lang('admin.registered')</th>
+            <th>@lang('admin.access')</th>
+            <th>@lang('admin.can_create_check _sheets')</th>
           </tr>
 
         @foreach($users as $user)
+          @if($user->role == 'Admin') @continue @endif
           <tr>
             <td>{{ $user->name }}</td>
             <td>{{ $user->numberOfCreated }}</td>
@@ -45,7 +46,7 @@
                   <table border="0" width="100%">
                     <tr>
                       <th><input type="number" class="form-control" name="possibleCreateList" value="{{ $user->possibleCreateList }}"></th>
-                      <th><button type="submit" class="btn btn-primary">Save</button></th>
+                      <th><button type="submit" class="btn btn-primary">@lang('admin.save')</button></th>
                     <tr>
                   </table>
                   @csrf
