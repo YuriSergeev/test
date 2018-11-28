@@ -27,7 +27,7 @@ class CheckListController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('user.home');
     }
 
     /**
@@ -37,14 +37,14 @@ class CheckListController extends Controller
      */
     public function create(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => 'required|max:255',
             'size' => 'required|numeric|between:1,30',
         ]);
 
         $size = $request->get('size');
         $title = $request->get('title');
-        return view('create', array('size'=>$size, 'title'=>$title));
+        return view('user.create', array('size'=>$size, 'title'=>$title));
     }
 
     /**
@@ -55,7 +55,7 @@ class CheckListController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => 'required|max:255',
             'size' => 'required|numeric|between:1,30',
         ]);
@@ -84,7 +84,7 @@ class CheckListController extends Controller
         }
 
 
-        return redirect()->route('home');
+        return redirect()->route('home.index');
     }
 
     /**
@@ -95,7 +95,7 @@ class CheckListController extends Controller
      */
     public function edit($id)
     {
-        return view('edit', ['checklist' => Checklist::find($id)]);
+        return view('user.edit', ['checklist' => Checklist::find($id)]);
     }
 
     /**
@@ -107,7 +107,7 @@ class CheckListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => 'required|max:255',
         ]);
 
@@ -123,7 +123,7 @@ class CheckListController extends Controller
 
         \Session::flash('checklist_edited', 'You have successfully edited CheckList');
 
-        return redirect()->route('home');
+        return redirect()->route('home.index');
     }
 
     public function condition($id)
@@ -145,10 +145,10 @@ class CheckListController extends Controller
     {
         $checklist = Checklist::find($id);
 
-        foreach($checklist->items as $item)
-        {
-            Item::find($item->id)->delete();
-        }
+        // foreach($checklist->items as $item)
+        // {
+        //     Item::find($item->id)->delete();
+        // }
 
         $checklist->delete();
 
@@ -159,7 +159,7 @@ class CheckListController extends Controller
 
         \Session::flash('checklist_destroy', 'You have successfully deleted CheckList');
 
-        return redirect()->route('home');
+        return redirect()->route('home.index');
     }
 
     public function destroy($id)

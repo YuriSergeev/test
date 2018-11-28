@@ -35,6 +35,11 @@ return [
     'access_denied' => 'Access denied',
     'checklist_create' => 'You have successfully created a checklist',
     'checklist_edited' => 'You have successfully edited the checklist',
-    'succes' => 'Success',
+    'success' => 'Success',
+    'settings' => 'Setting',
+    'name' => 'Name',
+    'home' => 'Home',
+    'admin_panel' => 'Admin panel',
+    'achievement' => 'Achievement',
 
 ];

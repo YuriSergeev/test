@@ -36,5 +36,10 @@ return [
     'checklist_create' => 'Вы успешно создали чек-лист',
     'checklist_edited' => 'Вы успешно отредактровали чек-лист',
     'succes' => 'Успех',
+    'settings' => 'Настройки',
+    'name' => 'Имя',
+    'home' => 'Домашняя',
+    'admin_panel' => 'Админ панель',
+    'achievement' => 'Достижения',
 
 ];

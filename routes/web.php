@@ -12,18 +12,19 @@
 */
 Auth::routes();
 
-Route::get('block', 'BlockController@index')->name('block');
+Route::get('/block', 'BlockController@index')->name('block');
 
 Route::group(['middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator','User']], function() {
-    Route::get('/', 'HomeController@index')->name('home');
-    Route::post('home/{id}', 'CheckListController@condition')->name('item.condition');
-    Route::post('item/create/', 'CheckListController@create')->name('item.create');
-    Route::resource('item', 'CheckListController')->except(['create', 'index', 'show']);
-    Route::delete('item/destroy/{id}', 'CheckListController@destroyList')->name('item.destroy.list');
+    Route::get('achievement', 'AchievementController@index')->name('achievement');
+    Route::get('settings', 'SettingsController@index')->name('settings');
+    Route::post('/home/{id}', 'CheckListController@condition')->name('home.condition');
+    Route::post('create', 'CheckListController@create')->name('home.create');
+    Route::resource('home', 'CheckListController')->except(['create', 'show']);
+    Route::delete('/home/destroylist/{id}', 'CheckListController@destroyList')->name('home.destroy.list');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator']], function() {
-    Route::post('users/access/{id}', 'AdminController@access')->name('user.access');
+    Route::post('/users/access/{id}', 'AdminController@access')->name('user.access');
     Route::get('/', 'AdminController@index')->name('admin.admin');
     Route::get('/users', 'AdminController@users')->name('admin.users_table');
     Route::post('/edit/users/{id}', 'AdminController@users_data')->name('edit.data.user');

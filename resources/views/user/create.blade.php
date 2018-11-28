@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-          <form action="{{ route('item.store')}}" method="POST">
+          <form action="{{ route('home.store')}}" method="POST">
             <div class="card">
                 <div class="card-header">
                     <label class="control-label">@lang('app.title')</label>

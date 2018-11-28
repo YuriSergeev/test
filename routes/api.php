@@ -22,7 +22,7 @@ Auth::routes();
 Route::get('/block', 'BlockController@index')->name('block');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator']], function() {
-    Route::get('/', function() {
+    Route::get('/admin', function() {
         return UserResource::collection(User::all());
     })->name('admin.admin');
     Route::get('/users', function() {
@@ -38,9 +38,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'roles', 'roles' => 'Admin'],
 });
 
 Route::group(['middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator','User']], function() {
-    Route::get('/', 'HomeController@index')->name('home');
-    Route::post('home/{id}', 'CheckListController@condition')->name('item.condition');
-    Route::post('item/create/', 'CheckListController@create')->name('item.create');
-    Route::resource('item', 'CheckListController')->except(['create', 'index', 'show']);
-    Route::delete('item/destroy/{id}', 'CheckListController@destroyList')->name('item.destroy.list');
+    Route::get('home', 'CheckListController@index')->name('home');
+    Route::post('home/{id}', 'CheckListController@condition')->name('home.condition');
+    Route::post('create/', 'CheckListController@create')->name('home.create');
+    Route::resource('home', 'CheckListController')->except(['create', 'show']);
+    Route::delete('home/destroy/{id}', 'CheckListController@destroyList')->name('item.destroy.list');
 });

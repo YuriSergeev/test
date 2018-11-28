@@ -12,7 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
     <script type="text/javascript" src="{{ asset('js\jquery-3.3.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js\main.js') }}"></script>
 
@@ -27,7 +27,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('home.index') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -59,11 +59,44 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Moderator')
+                                      <a class="dropdown-item" href="{{ route('admin.admin') }}"
+                                         onclick="event.preventDefault(); document.getElementById('admin-form').submit();">
+                                          @lang('app.admin_panel')
+                                      </a>
+                                    @endif
+                                    <a class="dropdown-item" href="{{ route('settings') }}"
+                                       onclick="event.preventDefault(); document.getElementById('home-form').submit();">
+                                        @lang('app.home')
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('settings') }}"
+                                       onclick="event.preventDefault(); document.getElementById('achievement-form').submit();">
+                                        @lang('app.achievement')
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('settings') }}"
+                                       onclick="event.preventDefault(); document.getElementById('settings-form').submit();">
+                                        @lang('app.settings')
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         @lang('app.logout')
                                     </a>
 
+                                    @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Moderator')
+                                      <form id="admin-form" action="{{ route('admin.admin') }}" method="GET" style="display: none;">
+                                          @csrf
+                                      </form>
+                                    @endif
+
+                                    <form id="home-form" action="{{ route('home.index') }}" method="GET" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <form id="achievement-form" action="{{ route('achievement') }}" method="GET" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <form id="settings-form" action="{{ route('settings') }}" method="GET" style="display: none;">
+                                        @csrf
+                                    </form>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -81,7 +114,7 @@
                                     <a class="dropdown-item" href="{{ route('locale', ['locale'=> 'ru']) }}"
                                       onclick="event.preventDefault(); document.getElementById('ru-form').submit();">
                                       @lang('app.russia')
-                                      <img src="{{ asset('image/local/language_ru.png') }}" width="25%" style="float: right; margin-top: -5px;"/>
+                                      <img src="{{ asset('image/local/language_ru.png') }}" width="45px" style="float: right; margin-top: -12px;"/>
                                     </a>
 
                                   </li>
@@ -89,7 +122,7 @@
                                     <a class="dropdown-item" href="{{ route('locale', ['locale'=> 'eng']) }}"
                                       onclick="event.preventDefault(); document.getElementById('eng-form').submit();">
                                       @lang('app.english')
-                                      <img src="{{ asset('image/local/language_eng.png') }}" width="25%" style="float: right; margin-top: -5px;"/>
+                                      <img src="{{ asset('image/local/language_eng.png') }}" width="45px" style="float: right; margin-top: -12px;"/>
                                     </a>
                                   </li>
                                 </ul>

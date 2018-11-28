@@ -1,0 +1,13 @@
+.box {
+  background: #3490dc;
+  border-radius: 2px;
+  display: inline-block;
+  height: 184px;
+  margin: 1rem;
+  position: relative;
+  width: 184px;
+}
+
+.box:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
