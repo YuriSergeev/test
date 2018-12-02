@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Checklist;
 use App\Item;
 use Auth;
+use App\Achievement;
 
 class CheckListController extends Controller
 {
@@ -83,6 +84,15 @@ class CheckListController extends Controller
           \Session::flash('checklist_create', 'You have created CheckList');
         }
 
+        if($request->get('size') == 30)
+        {
+            Auth::user()->achievements()->attach(Achievement::where('name', 'Multitasking')->first());
+        }
+
+        if(Auth::user()->numberOfCreated == 10)
+        {
+            Auth::user()->achievements()->attach(Achievement::where('name', 'Scheduler')->first());
+        }
 
         return redirect()->route('home.index');
     }
@@ -123,6 +133,8 @@ class CheckListController extends Controller
 
         \Session::flash('checklist_edited', 'You have successfully edited CheckList');
 
+        Auth::user()->achievements()->attach(Achievement::where('name', 'Measure seven times cut once')->first());
+
         return redirect()->route('home.index');
     }
 
@@ -132,7 +144,9 @@ class CheckListController extends Controller
         $item->condition = $item->condition == true ? false : true;
         $item->save();
 
-        return redirect()->route('home');
+        Auth::user()->achievements()->attach(Achievement::where('name', 'The first went')->first());
+
+        return redirect()->route('home.index');
     }
 
     /**
@@ -144,20 +158,19 @@ class CheckListController extends Controller
     public function destroyList($id)
     {
         $checklist = Checklist::find($id);
-
-        // foreach($checklist->items as $item)
-        // {
-        //     Item::find($item->id)->delete();
-        // }
-
         $checklist->delete();
 
         $user = Auth::user();
         $user->possibleCreateList += 1;
-        $user->numberOfCreated -= 1;
+        $user->deletedCheckList += 1;
         $user->save();
 
         \Session::flash('checklist_destroy', 'You have successfully deleted CheckList');
+
+        if(Auth::user()->deletedCheckList == 10)
+        {
+            Auth::user()->achievements()->attach(Achievement::where('name', 'Cleaner')->first());
+        }
 
         return redirect()->route('home.index');
     }

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+  {{-- {{ dd(App\Achievement::where('name', 'The first went')->value('make')) }} --}}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

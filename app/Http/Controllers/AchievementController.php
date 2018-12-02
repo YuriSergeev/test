@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Achievement;
+use Auth;
 
 class AchievementController extends Controller
 {

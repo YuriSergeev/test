@@ -41,5 +41,14 @@ return [
     'home' => 'Домашняя',
     'admin_panel' => 'Админ панель',
     'achievement' => 'Достижения',
-
+    'multitasking' => 'Мультизадачность',
+    'the_first_went' => 'Первый пошёл',
+    'measure_seven' => 'Семь раз отмерь, один раз отреж',
+    'Cleaner' => 'Чистильщик',
+    'Scheduler' => 'Планировщик',
+    'multitasking_lang' => 'Создать чек-лист из 30 пунктов',
+    'first_went_lang' => 'Выполнить первую задачу',
+    'measure_seven_lang' => 'Отредактировать чек-лист',
+    'cleaner_lang' => 'Удалить 10 чек-листов',
+    'scheduler_lang' => 'Создать 10 чек-листов',
 ];

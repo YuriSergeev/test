@@ -30,7 +30,17 @@
               {{-- @if($user->role == 'User') @continue @endif --}}
               <tr>
                 <td>{{ $user->name }}</td>
-                <td>{{ $user->role }}</td>
+                <td>
+                  @if($user->hasRole('User'))
+                    User
+                  @endif
+                  @if($user->hasRole('Moderator'))
+                    Moderator
+                  @endif
+                  @if ($user->hasRole('Admin'))
+                    Admin
+                  @endif
+                </td>
                 <td>{{ $user->email }}</td>
                 <td>
                   <form id="admin_access" action="{{ route('admin.access') }}" method="POST"> @csrf

@@ -19,7 +19,6 @@ class UserTableSeeder extends Seeder
 
       $user = new User();
       $user->name = 'Visitor';
-      $user->role = 'User';
       $user->email = 'visitor@example.com';
       $user->password = Hash::make('password');
       $user->save();
@@ -27,7 +26,6 @@ class UserTableSeeder extends Seeder
 
       $admin = new User();
       $admin->name = 'Admin';
-      $admin->role = 'Admin';
       $admin->email = 'admin@example.com';
       $admin->password = Hash::make('password');
       $admin->save();
@@ -35,7 +33,6 @@ class UserTableSeeder extends Seeder
 
       $author = new User();
       $author->name = 'Moderator';
-      $author->role = 'Moderator';
       $author->email = 'moderator@example.com';
       $author->password = Hash::make('password');
       $author->save();

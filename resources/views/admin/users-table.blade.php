@@ -28,7 +28,7 @@
           </tr>
 
         @foreach($users as $user)
-          @if($user->role == 'Admin') @continue @endif
+          @if($user->hasRole('Admin')) @continue @endif
           <tr>
             <td>{{ $user->name }}</td>
             <td>{{ $user->numberOfCreated }}</td>

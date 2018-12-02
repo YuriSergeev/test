@@ -16,11 +16,21 @@
       </div>
 
       @foreach ($users as $user)
-        @if($user->role == 'Admin') @continue @endif
+        @if($user->hasRole('Admin')) @continue @endif
         <div class="card">
             <div class="card-header">
               <table border="0" width="100%">
-                  <th>@lang('admin.name'): {{ $user->name }} - @lang('admin.role'): {{ $user->role }}</th>
+                  <th>@lang('admin.name'): {{ $user->name }} - @lang('admin.role'):
+                    @if($user->hasRole('User'))
+                      User
+                    @endif
+                    @if($user->hasRole('Moderator'))
+                      Moderator
+                    @endif
+                    @if ($user->hasRole('Admin'))
+                      Admin
+                    @endif
+                    </th>
                   <th style="float: right;">
                     <form id="condition" action="{{ route('user.access', ['id'=>$user->id]) }}" method="POST">
                       <div class="toggle lg">

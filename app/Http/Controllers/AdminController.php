@@ -53,18 +53,13 @@ class AdminController extends Controller
         $user->roles()->detach();
         if ($request['role_user']) {
             $user->roles()->attach(Role::where('name', 'User')->first());
-            $user->role = 'User';
-
         }
         if ($request['role_moderator']) {
             $user->roles()->attach(Role::where('name', 'Moderator')->first());
-            $user->role = 'Moderator';
         }
         if ($request['role_admin']) {
             $user->roles()->attach(Role::where('name', 'Admin')->first());
-            $user->role = 'Admin';
         }
-        $user->save();
         return redirect()->back();
     }
 }

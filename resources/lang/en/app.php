@@ -41,5 +41,21 @@ return [
     'home' => 'Home',
     'admin_panel' => 'Admin panel',
     'achievement' => 'Achievement',
+    'multitasking' => 'Multitasking',
+    'the_first_went' => 'The first went',
+    'measure_seven' => 'Measure seven times cut once',
+    'Cleaner' => 'Cleaner',
+    'Scheduler' => 'Scheduler',
+    'multitasking_lang' => 'Create a check list of 30 items',
+    'first_went_lang' => 'Perform the first task',
+    'measure_seven_lang' => 'To edit a check-list',
+    'cleaner_lang' => 'Remove 10 check lists',
+    'scheduler_lang' => 'Create 10 check lists',
+
+
+
+
+
+
 
 ];

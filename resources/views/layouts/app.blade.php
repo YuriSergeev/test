@@ -12,13 +12,11 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/styleMain.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
     <script type="text/javascript" src="{{ asset('js\jquery-3.3.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js\main.js') }}"></script>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -59,17 +57,18 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Moderator')
+
+                                    @if(Auth::user()->hasRole('Admin') ||Auth::user()->hasRole('Moderator'))
                                       <a class="dropdown-item" href="{{ route('admin.admin') }}"
                                          onclick="event.preventDefault(); document.getElementById('admin-form').submit();">
                                           @lang('app.admin_panel')
                                       </a>
                                     @endif
-                                    <a class="dropdown-item" href="{{ route('settings') }}"
+                                    <a class="dropdown-item" href="{{ route('home.index') }}"
                                        onclick="event.preventDefault(); document.getElementById('home-form').submit();">
                                         @lang('app.home')
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('settings') }}"
+                                    <a class="dropdown-item" href="{{ route('achievement') }}"
                                        onclick="event.preventDefault(); document.getElementById('achievement-form').submit();">
                                         @lang('app.achievement')
                                     </a>
@@ -82,7 +81,7 @@
                                         @lang('app.logout')
                                     </a>
 
-                                    @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Moderator')
+                                    @if(Auth::user()->hasRole('Admin') ||Auth::user()->hasRole('Moderator'))
                                       <form id="admin-form" action="{{ route('admin.admin') }}" method="GET" style="display: none;">
                                           @csrf
                                       </form>
