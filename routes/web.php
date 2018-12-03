@@ -17,6 +17,7 @@ Route::get('/block', 'BlockController@index')->name('block');
 Route::group(['middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator','User']], function() {
     Route::get('achievement', 'AchievementController@index')->name('achievement');
     Route::get('settings', 'SettingsController@index')->name('settings');
+    Route::post('settings', 'SettingsController@update_setting')->name('update.settings');
     Route::post('/home/{id}', 'CheckListController@condition')->name('home.condition');
     Route::post('create', 'CheckListController@create')->name('home.create');
     Route::resource('home', 'CheckListController')->except(['create', 'show']);
