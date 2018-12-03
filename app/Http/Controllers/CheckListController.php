@@ -133,8 +133,9 @@ class CheckListController extends Controller
 
         \Session::flash('checklist_edited', 'You have successfully edited CheckList');
 
-        Auth::user()->achievements()->attach(Achievement::where('name', 'Measure seven times cut once')->first());
-
+        if(!Auth::user()->hasAchievement('Measure seven times cut once')) {
+          Auth::user()->achievements()->attach(Achievement::where('name', 'Measure seven times cut once')->first());
+        }
         return redirect()->route('home.index');
     }
 
@@ -144,7 +145,9 @@ class CheckListController extends Controller
         $item->condition = $item->condition == true ? false : true;
         $item->save();
 
-        Auth::user()->achievements()->attach(Achievement::where('name', 'The first went')->first());
+        if(!Auth::user()->hasAchievement('The first went')) {
+          Auth::user()->achievements()->attach(Achievement::where('name', 'The first went')->first());
+        }
 
         return redirect()->route('home.index');
     }
