@@ -10,37 +10,33 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'HomeController@welcome')->name('welcome');
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/block', 'BlockController@index')->name('block');
 
-Route::group(['middleware' => 'access'], function()
-{
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::post('/home/{id}', 'CheckListController@condition')->name('item.condition');
-    Route::get('/item/edit/{list_id}/{title}/{id}', 'CheckListController@edit')->name('item.edit');
-    Route::post('/item/create/', 'CheckListController@create')->name('item.create');
-    Route::delete('/item/destroy/{list_id}', 'CheckListController@destroyList')->name('item.destroy.list');
-    Route::resource('/item', 'CheckListController')->except(['create','edit','index', 'show']);
-    Route::get('/block', 'BlockController@index')->name('block');
+Route::group(['middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator','User']], function() {
+    Route::get('achievement', 'AchievementController@index')->name('achievement');
+    Route::get('settings', 'SettingsController@index')->name('settings');
+    Route::post('settings', 'SettingsController@update_setting')->name('update.settings');
+    Route::post('/home/{id}', 'CheckListController@condition')->name('home.condition');
+    Route::post('create', 'CheckListController@create')->name('home.create');
+    Route::resource('home', 'CheckListController')->except(['create', 'show']);
+    Route::delete('/home/destroylist/{id}', 'CheckListController@destroyList')->name('home.destroy.list');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['permission', 'access']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator']], function() {
     Route::post('/users/access/{id}', 'AdminController@access')->name('user.access');
-    Route::post('/admins/access/{id}', 'AdminController@admin_access')->name('admin.admin_access');
-    Route::get('/admins', 'AdminController@admins')->name('admin.admins_table');
-});
-
-Route::group(['prefix' => 'admin', 'middleware' => ['access']], function() {
     Route::get('/', 'AdminController@index')->name('admin.admin');
     Route::get('/users', 'AdminController@users')->name('admin.users_table');
-    Route::post('/edit/users', 'AdminController@users_data')->name('edit.data.user');
-    Route::get('/block', 'BlockController@index')->name('block');
+    Route::post('/edit/users/{id}', 'AdminController@users_data')->name('edit.data.user');
 });
 
+Route::group(['prefix' => 'admin', 'middleware' => 'roles', 'roles' => 'Admin'], function() {
+    Route::post('admins/access', 'AdminController@postAdminAssignRoles')->name('admin.access');
+    Route::get('admins', 'AdminController@admins')->name('admin.admins_table');
+});
 
-Route::get('admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-Route::post('admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+Route::get('locale/{locale}', function($locale) {
+    Session::put('locale', $locale);
+    return redirect()->back();
+})->name('locale');

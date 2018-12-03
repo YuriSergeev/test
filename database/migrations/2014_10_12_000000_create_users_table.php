@@ -20,8 +20,10 @@ class CreateUsersTable extends Migration
             $table->boolean('access')->default(true);
             $table->integer('possibleCreateList')->default(10);
             $table->integer('numberOfCreated')->default(0);
+            $table->integer('deletedCheckList')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('avatar')->default('default.png');
             $table->rememberToken();
             $table->timestamps();
         });

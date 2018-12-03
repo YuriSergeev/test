@@ -2,48 +2,64 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                  <table border="0" width="100%">
-                    <tr>
-                      <th style="float: left;"><a href="{{ route('admin.admin') }}" class="btn btn-primary">All checklists</a></th>
-                      @if(Auth::user()->job_title == 'Admin')<th style="text-align: center;"><a href="{{ route('admin.admins_table') }}" class="btn btn-primary">Admin table</a></th>@endif
-                      <th style="float: right;"><a href="{{ route('admin.users_table') }}" class="btn btn-primary">User management</a></th>
-                  </table>
-                </div>
-            </div>
-            <div class="card">
-              <div class="card-body">
-                <table width="100%">
-                  <tr>
-                    <th>Name</th>
-                    <th>Job title</th>
-                    <th>Access</th>
-                  </tr>
-              @foreach($admins as $admin)
-                @if($admin->job_title == 'Admin') @continue @endif
-                <form action="{{ route('edit.data.user') }}" method="POST" class="row">
-                  {{ csrf_field() }}
-                    <tr>
-                      <td>{{ $admin->name }}</td>
-                      <td>{{ $admin->job_title }}</td>
-                      <td>
-                        <form></form>
-                        <form action="{{ route('admin.admin_access', ['id'=>$admin->id]) }}" method="POST">
-                            <div class="toggle lg">
-                                <button type="submit" style="border:none; background: none;"><input type="checkbox" @if($admin->access) checked @endif><span class="button-indecator"></span></button>
-                            </div>
-                            {{ csrf_field() }}
-                        </form>
-                      </td>
-                    </tr>
-                </form>
-              @endforeach
-            </div>
-          </div>
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+
+      <div class="card">
+        <div class="card-header">
+          <table border="0" width="100%">
+            <th style="float: left;"><a href="{{ route('admin.admin') }}" class="btn btn-primary">@lang('admin.all_checklists')</a></th>
+            <th style="float: right;"><a href="{{ route('admin.users_table') }}" class="btn btn-primary">@lang('admin.user_management')</a></th>
+          </table>
         </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <table width="100%">
+            <thead>
+              <th>@lang('admin.name')</th>
+              <th>@lang('admin.role')</th>
+              <th>E-Mail</th>
+              <th>@lang('admin.access')</th>
+              <th></th>
+            </thead>
+            <tbody>
+            @foreach($users as $user)
+              {{-- @if($user->role == 'Admin') @continue @endif --}}
+              {{-- @if($user->role == 'User') @continue @endif --}}
+              <tr>
+                <td>{{ $user->name }}</td>
+                <td>
+                  @if($user->hasRole('User'))
+                    User
+                  @endif
+                  @if($user->hasRole('Moderator'))
+                    Moderator
+                  @endif
+                  @if ($user->hasRole('Admin'))
+                    Admin
+                  @endif
+                </td>
+                <td>{{ $user->email }}</td>
+                <td>
+                  <form id="admin_access" action="{{ route('admin.access') }}" method="POST"> @csrf
+                    <table width="100%">
+                      <input type="hidden" name="user_id" value="{{ $user->id }}">
+                      <td>@lang('admin.user'): <input type="checkbox" {{ $user->hasRole('User') ? 'checked' : '' }} name="role_user"></td>
+                      <td>@lang('admin.moderator'): <input type="checkbox" {{ $user->hasRole('Moderator') ? 'checked' : '' }} name="role_moderator"></td>
+                      <td>@lang('admin.admin'): <input type="checkbox" {{ $user->hasRole('Admin') ? 'checked' : '' }} name="role_admin"></td>
+                      <td><button type="submit">@lang('admin.assign_roles')</button></td>
+                    </table>
+                  </form>
+                </td>
+              </tr>
+            @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 @endsection

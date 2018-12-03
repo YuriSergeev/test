@@ -4,8 +4,7 @@ use App\Http\Resources\CheckList as CheckListResource;
 use App\Http\Resources\Admin as AdminResource;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
-use App\CheckList;
-use App\Admin;
+use App\Checklist;
 use App\User;
 
 /*
@@ -20,33 +19,28 @@ use App\User;
 */
 Auth::routes();
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api']], function()
-{
+Route::get('/block', 'BlockController@index')->name('block');
+
+Route::group(['prefix' => 'admin', 'middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator']], function() {
+    Route::get('/admin', function() {
+        return UserResource::collection(User::all());
+    })->name('admin.admin');
     Route::get('/users', function() {
         return UserResource::collection(User::all());
     });
-
-    Route::get('/admins', function() {
-        return AdminResource::collection(Admin::all());
-    });
-
-    Route::get('/checklists', function() {
-        return CheckListResource::collection(CheckList::all());
-    });
-
-    Route::post('/edit/users', 'AdminController@users_data')->name('edit.data.user');
-    Route::post('/users/access/{id}', 'AdminController@access')->name('user.access');
-    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-
+    Route::post('users/access/{id}', 'AdminController@access')->name('user.access');
+    Route::post('/edit/users/{id}', 'AdminController@users_data')->name('edit.data.user');
 });
 
-Route::group(['prefix' => 'home', 'middleware' => ['auth:api']], function()
-{
-  Route::get('/home', 'HomeController@index')->name('home');
-  Route::post('/home/{id}', 'CheckListController@condition')->name('item.condition');
-  Route::get('/item/edit/{list_id}/{title}/{id}', 'CheckListController@edit')->name('item.edit');
-  Route::post('/item/create/', 'CheckListController@create')->name('item.create');
-  Route::delete('/item/destroy/{list_id}', 'CheckListController@destroyList')->name('item.destroy.list');
-  Route::resource('/item', 'CheckListController')->except(['create','edit','index', 'show']);
+Route::group(['prefix' => 'admin', 'middleware' => 'roles', 'roles' => 'Admin'], function() {
+    Route::post('admins/access', 'AdminController@postAdminAssignRoles')->name('admin.access');
+    Route::get('admins', 'AdminController@admins')->name('admin.admins_table');
+});
+
+Route::group(['middleware' => ['roles', 'access'], 'roles' => ['Admin', 'Moderator','User']], function() {
+    Route::get('home', 'CheckListController@index')->name('home');
+    Route::post('home/{id}', 'CheckListController@condition')->name('home.condition');
+    Route::post('create/', 'CheckListController@create')->name('home.create');
+    Route::resource('home', 'CheckListController')->except(['create', 'show']);
+    Route::delete('home/destroy/{id}', 'CheckListController@destroyList')->name('item.destroy.list');
 });
